@@ -6,10 +6,6 @@ on:
         branches:
             - '*'
 
-# Define at the root of the workflow
-env:
-  ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: true
-
 jobs:
     full-test:
         container: cuaesd/aesd-autotest:assignment4-buildroot
@@ -24,6 +20,7 @@ jobs:
                 ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
           - name: Run full test
             env:
+              FORCE_UNSAFE_CONFIGURE: 1
               GIT_SSH_COMMAND: "ssh -o StrictHostKeyChecking=no"
             run: ./full-test.sh
           - name: Cleanup
